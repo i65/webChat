@@ -1,0 +1,5 @@
+{% for user in users %}
+    {% if user.username != session.get('user') %}
+        {% include '_user.html' %}
+    {% endif %}
+{% endfor %}

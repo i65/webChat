@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+{% block title %}首页{% endblock %}
+{% block styles %}
+  <style type="text/css">
+    .container {
+        background-color: #fff;
+    }
+    .container {
+      border: 1px solid #ccc
+    }
+    .m-dialoge {
+        margin-bottom: 30px;
+    }
+
+    .m-content {
+        height: 600px;
+        overflow-y: auto;
+        padding-right: 15px;
+    }
+    .m-user {
+        height: 600px;
+        overflow-y: auto;
+    }
+    .m-message {
+        max-width: 68%;
+    }
+    .m-message.ui.label {
+        line-height: 2;
+    }
+    .m-message.right{
+        float: right;
+        clear: both;
+    }
+    .item-author {
+        padding-bottom: 6px;
+    }
+  </style>
+{% endblock %}
+{% block content %}
+<div class="ui container">
+  <div class="ui internally celled grid">
+      <div class="row">
+           <!--  用户列表 -->
+          <div class="left floated three wide column">
+              <a class="ui blue left ribbon label">
+                  用户列表（<span id="user-count">1</span>/{{user_amount}}）
+              </a>
+          <div class="ui divider"></div>
+          <div class="ui middle aligned divided list">
+              <div class="item">
+                  <i class="ui user circle outline icon m-user-icon"></i>
+                    <div class="ui icon content">
+                        <span class="header">
+                            <strong>{{ session.get('user') }}</strong>
+                        </span>
+                    </div>
+              </div>
+          </div>
+          <div class="ui middle aligned divided list  m-user">
+              {% include '_users.html' %}
+          </div>
+        </div>
+        <!-- 聊天窗口 -->
+          <div class="right floated thirteen wide column raised segment">
+          <a class="ui teal right ribbon label">聊天窗口</a>
+          <div class="ui divider"></div>
+          <div class="content m-content">
+            <div class="ui list messages_list">
+                <div class="ui text loader">加载消息...</div>
+                 {% for message in messages %}
+                    {% include '_message.html' %}
+                 {% endfor %}
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <div class="row">
+        <div class="center aligned column">
+          <form action="">
+              <div class="ui right pointing teal basic label">点击用户列表中用户名即可选中用户，对ta发送消息。</div>
+            <div class="ui action left icon input">
+                <i class="circular heart icon link" data-content="这是一个反色提示框" data-variation="inverted"></i>
+              <input readonly disabled type="text" name="username" id="message_to" placeholder="想对谁">
+              <div class="ui action left icon input" style="display:inline">
+                  <i class="envelope icon"></i>
+                  <input type="text" name="content" id="message-input" placeholder="说点什么.">
+              </div>
+              <div class="ui teal button" id="send-button">发送</div>
+            </div>
+          </form>
+        </div>
+
+      </div>
+  </div>
+</div>
+{% endblock %}

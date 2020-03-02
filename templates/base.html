@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+{% block head %}
+    <head>
+		<meta charset="utf-8">
+		<title>{% block title %}{% endblock %} - web聊天室 </title>
+        <link rel="shortcut icon" href="{{ url_for('static', filename='img/logo.jpg') }}">
+	    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='semantic-ui/semantic.min.css') }}"/>
+		<script type="text/javascript" src="{{ url_for('static' ,filename='js/jquery.min.js') }}"></script>
+        {{ moment.include_moment(local_js=url_for('static',filename='js/moment-with-locales.min.js')) }}
+        {{ moment.locale('zh-cn') }}
+        {% block styles %}{% endblock %}
+        <style>
+            body {
+                background-color: #DADADA;
+            }
+        </style>
+	</head>
+{%  endblock %}
+<body>
+<div class="ui inverted teal basic menu segment">
+  <div class="header item">文兄的 web聊天室</div>
+  <div class="right menu">
+    {% if session['user'] %}
+      <a class="item menu-item" data-id="{{ session['user_id'] }}">欢迎您：<i class="icon user"></i> {{ session['user'] }}</a>
+	  <a class="item" id="logout"><i class="icon power off red"></i> 退出</a>
+    {% else %}
+      <a class="item">欢迎您：<i class="icon user"></i> 游客</a>
+    {% endif %}
+  </div>
+</div>
+{% block content %}{%  endblock %}
+{% block footer %}
+{% include '_modal.html' %}
+{% include '_confirm.html' %}
+
+<script src="https://cdn.bootcss.com/jquery-serialize-object/2.5.0/jquery.serialize-object.min.js"></script>
+<script type="text/javascript" src="{{ url_for('static' ,filename='semantic-ui/semantic.min.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static' ,filename='js/socket.io.2.3.0.min.js') }}"></script>
+
+<script>
+var register_url = '{{ url_for("register") }}';
+var login_url =  '{{ url_for("login") }}';
+var csrf_token = '{{  csrf_token() }}';
+var messages_url = '{{ url_for("chat_app.get_messages") }}';
+var login_user = '{{ session['user'] }}';
+var logout_url = '{{ url_for("logout") }}';
+</script>
+<script type="text/javascript" src="{{ url_for('static' ,filename='js/common.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static' ,filename='js/forms.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static' ,filename='js/myscripts.js') }}"></script>
+{% block script %}{% endblock %}
+{% endblock %}
+</body>
+</html>

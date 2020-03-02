@@ -1,0 +1,35 @@
+<div class="item m-dialoge">
+
+    <div class="content">
+        {% if message.from_author_id == session['user_id'] %}
+            <div class="item-author item right floated">
+                <small class="timestamp">{{moment(message.created_at).fromNow(refresh=True)}}</small>
+                <small class="timestamp">[ {{ moment(message.created_at).format('lll') }}  ]</small>
+                 {% if message.to_author_id %}
+                    <a class=""><i class="user icon"></i>{{ message.from_username}}</a> 对
+                    <a class=""><i class="user outline icon"></i>{{ message.to_username }}</a>
+                    <em style="color:green">说：</em>
+                {% else %}
+                    <a class=""><i class="user icon"></i>{{ message.from_username}}</a>
+                {% endif %}
+            </div>
+            <div class="m-message ui  right pointing teal basic label">{{ message.body | safe }}</div>
+        {% else %}
+            <div class="item item-author">
+                 {% if message.to_author_id %}
+                    <a class=""><i class="user icon"></i>{{ message.from_username}}</a> 对
+                    <a class=""><i class="user outline icon"></i>{{ message.to_username }}</a> <em style="color:green">说：</em>
+                {% else %}
+                    <a class=""><i class="user icon"></i>{{ message.from_username}}</a>
+                {% endif %}
+                <small class="timestamp">[ {{ moment(message.created_at).format('lll') }} ]</small>
+                <small class="timestamp">{{moment(message.created_at).fromNow(refresh=True)}}</small>
+            </div>
+            <div class="m-message ui left pointing teal basic label">
+                {{ message.body | safe }}
+            </div>
+
+        {% endif %}
+    </div>
+</div>
+
